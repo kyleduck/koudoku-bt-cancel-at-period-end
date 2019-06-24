@@ -36,6 +36,8 @@ you may need to follow to accommodate breaking changes:
 
 https://github.com/andrewculver/koudoku/blob/master/CHANGELOG.md
 
+Also, this is a Koudoku branch from Kyle Duck.
+
 EOS
 
 
