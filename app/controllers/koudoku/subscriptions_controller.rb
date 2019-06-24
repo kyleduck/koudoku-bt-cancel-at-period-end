@@ -124,7 +124,7 @@ module Koudoku
     end
 
     def create
-
+      
       all_subscription_params = subscription_params.to_hash
       all_subscription_params[:rewardful_id] = params[:referral] if params[:referral]
 
@@ -139,9 +139,8 @@ module Koudoku
 
         ## commenting this out because the model callbacks are actually
         ## providing the error message we need here from stripe.
-        # flash[:error] = I18n.t('koudoku.failure.problem_processing_transaction')
-
-        render :new, template: "koudoku/subscriptions/new"
+        flash[:error] = I18n.t('koudoku.failure.problem_processing_transaction')
+        redirect_to new_owner_subscription_path(current_owner, plan: subscription_params[:plan_id])
       end
     end
 
