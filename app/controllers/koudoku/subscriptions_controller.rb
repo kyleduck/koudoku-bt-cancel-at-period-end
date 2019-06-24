@@ -141,7 +141,7 @@ module Koudoku
         ## providing the error message we need here from stripe.
         # flash[:error] = I18n.t('koudoku.failure.problem_processing_transaction')
 
-        render :new
+        render :new, template: "koudoku/subscriptions/new"
       end
     end
 
