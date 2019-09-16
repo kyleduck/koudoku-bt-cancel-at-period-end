@@ -1,3 +1,6 @@
+# SIGNING REQUIRED AS OF STRIPE 2.0
+StripeEvent.signing_secret = ENV['STRIPE_SIGNING_SECRET'] 
+
 StripeEvent.configure do |events|
   events.subscribe 'charge.failed' do |event|
     stripe_id = event.data.object['customer']
