@@ -262,6 +262,8 @@ module Koudoku::Subscription
   end
   
   def cancel_without_callback
+    # i'm jumping through hoops here to try to avoid koudoku's callback method, but still maintain support for
+    # `prepare_for_cancelation` and `finalize_cancelation!` template methods.
     Subscription.skip_callback(:save, :before, :processing!)
     self.prepare_for_cancelation
     self.plan = nil
