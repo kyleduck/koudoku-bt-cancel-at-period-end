@@ -260,6 +260,17 @@ module Koudoku::Subscription
   def upgrading?
     (plan_id_was.present? and plan_id_was < plan_id) or plan_id_was.nil?
   end
+  
+  def cancel_without_callback
+    Subscription.skip_callback(:save, :before, :processing!)
+    self.prepare_for_cancelation
+    self.plan = nil
+    self.current_price = nil
+    self.cancel_at = nil
+    self.finalize_cancelation!
+    self.save
+    Subscription.set_callback(:save, :before, :processing!)  
+  end
 
   # Template methods.
   def prepare_for_plan_change
