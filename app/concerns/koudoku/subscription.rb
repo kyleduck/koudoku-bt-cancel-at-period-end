@@ -5,12 +5,13 @@ module Koudoku::Subscription
 
     # We don't store these one-time use tokens, but this is what Stripe provides
     # client-side after storing the credit card information.
-    attr_accessor :credit_card_token
+    attr_accessor :credit_card_token, :skip_processing
 
     belongs_to :plan, optional: true
 
     # update details.
-    before_save :processing!
+    before_save :processing!, unless: :skip_processing
+
     def processing!
 
       # if their package level has changed ..
@@ -264,14 +265,13 @@ module Koudoku::Subscription
   def cancel_without_callback
     # i'm jumping through hoops here to try to avoid koudoku's callback method, but still maintain support for
     # `prepare_for_cancelation` and `finalize_cancelation!` template methods.
-    Subscription.skip_callback(:save, :before, :processing!)
+    self.skip_processing = true
     self.prepare_for_cancelation
     self.plan = nil
     self.current_price = nil
     self.cancel_at = nil
     self.finalize_cancelation!
     self.save
-    Subscription.set_callback(:save, :before, :processing!)  
   end
 
   # Template methods.
