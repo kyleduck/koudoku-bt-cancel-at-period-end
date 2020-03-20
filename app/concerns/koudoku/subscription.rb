@@ -318,7 +318,7 @@ module Koudoku::Subscription
   end
 
   # stripe web-hook callbacks.
-  def payment_succeeded(amount, invoice = {})
+  def payment_succeeded(amount, invoice_id)
   end
 
   def charge_failed
