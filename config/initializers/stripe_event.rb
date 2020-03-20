@@ -10,10 +10,11 @@ StripeEvent.configure do |events|
   end
   
   events.subscribe 'invoice.payment_succeeded' do |event|
-    stripe_id = event.data.object['customer']
-    amount = event.data.object['total'].to_f / 100.0
+    invoice = event.data.object
+    stripe_id = invoice['customer']
+    amount = invoice['total'].to_f / 100.0
     subscription = ::Subscription.find_by_stripe_id(stripe_id)
-    subscription.payment_succeeded(amount)
+    subscription.payment_succeeded(amount, invoice)
   end
   
   events.subscribe 'charge.dispute.created' do |event|
