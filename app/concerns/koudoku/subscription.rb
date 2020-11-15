@@ -140,7 +140,7 @@ module Koudoku::Subscription
               # If the class we're being included in supports Link Mink ..
               if respond_to? :link_mink_id
                 if link_mink_id.present?
-                  subscription_attributes[:metadata] = {identifier: link_mink_id}
+                  subscription_attributes[:metadata] = {lm_data: link_mink_id}
                 end
               end
 
