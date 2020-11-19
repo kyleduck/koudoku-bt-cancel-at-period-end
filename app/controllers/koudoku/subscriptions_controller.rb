@@ -149,6 +149,9 @@ module Koudoku
 
     def cancel
       flash[:notice] = I18n.t('koudoku.confirmations.subscription_cancelled')
+      # Note cancel reason if model was upgraded and if reason provided
+      @subscription.cancel_reason = params[:cancel_reason] if 
+        @subscription.respond_to?(:cancel_reason) && params[:cancel_reason].present?
       @subscription.plan_id = nil
       @subscription.save
       redirect_to owner_subscription_path(@owner, @subscription)
